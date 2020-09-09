@@ -29,7 +29,8 @@ class NAIC(BaseImageDataset):
     def _process_dir(self, data_dir, relabel=True):
         # filename = osp.join(data_dir, 'train_list.txt')
         # filename = osp.join(data_dir, 'new_label.txt')
-        filename = osp.join(data_dir, 'train_label.txt')
+        # filename = osp.join(data_dir, 'train_label.txt')
+        filename = osp.join('/home/lijiaqi/LiuHongzhi/GitHub/Person_ReID/NAIC_Challenge/data', 'label.txt')
         dataset = []
         camid = 1
         count_image=defaultdict(list)
@@ -74,7 +75,10 @@ class NAIC(BaseImageDataset):
             subfix = 'gallery_a'
 
         datatype = ['green', 'normal']
-        camid = 1
+        if query:
+            camid = 1
+        else:
+            camid = 2
         count_image = defaultdict(list)
         # print("rlabel_dict: ", len(rlabel_dict), "subfix: ", subfix)
 

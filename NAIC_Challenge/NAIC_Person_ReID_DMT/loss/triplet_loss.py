@@ -30,9 +30,34 @@ def euclidean_dist(x, y):
     xx = torch.pow(x, 2).sum(1, keepdim=True).expand(m, n)
     yy = torch.pow(y, 2).sum(1, keepdim=True).expand(n, m).t()
     dist = xx + yy
-    dist.addmm_(1, -2, x, y.t())
+    dist = torch.addmm(dist, x, y.t(), beta=1, alpha=-2)
     dist = dist.clamp(min=1e-12).sqrt()  # for numerical stability
     return dist
+
+
+# def euclidean_dist(x, y):
+#     """
+#     Args:
+#       x: pytorch Variable, with shape [m, d]
+#       y: pytorch Variable, with shape [n, d]
+#     Returns:
+#       dist: pytorch Variable, with shape [m, n]
+#     """
+#     m, n = x.size(0), y.size(0)
+#     xx = torch.pow(x, 2).sum(1, keepdim=True).expand(m, n)
+#     yy = torch.pow(y, 2).sum(1, keepdim=True).expand(n, m).t()
+#     dist = xx + yy
+#     dist.addmm_(1, -2, x, y.t())
+#     dist = dist.clamp(min=1e-12).sqrt()  # for numerical stability
+#     return dist
+
+
+# deprecated:
+#         addmm_(Number beta, Number alpha, Tensor mat1, Tensor mat2)
+# Consider using one of the following signatures instead:
+#         addmm_(Tensor mat1, Tensor mat2, *, Number beta, Number alpha) (Triggered internally at  /opt/conda/conda-bld/pytorch_1595629427286/work/torch/csrc/utils/python_arg_parser.cpp:766.)
+#   dist.addmm_(1, -2, x, y.t())
+
 
 
 def hard_example_mining(dist_mat, labels, return_inds=False):

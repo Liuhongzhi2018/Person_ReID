@@ -73,7 +73,6 @@ if __name__ == '__main__':
                                   cfg.SOLVER.WARMUP_FACTOR,
                                   cfg.SOLVER.WARMUP_EPOCHS, cfg.SOLVER.WARMUP_METHOD)
 
-
     do_train(cfg,
              model,
              center_criterion,
@@ -83,9 +82,7 @@ if __name__ == '__main__':
              optimizer_center,
              scheduler,             # modify for using self trained model
              loss_func,
-             num_query_green,
-             num_query_normal,
-             val_loader_green,
+             num_query_normal
     )
 
     # do_train(

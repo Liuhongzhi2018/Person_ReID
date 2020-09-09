@@ -79,7 +79,8 @@ The code is modified from [reid strong baseline](https://github.com/michuanhaoha
    ```bash
    python train.py --config_file [CHOOSE WHICH config TO RUN]
    # E.g
-   #python train.py --config_file configs/naic_round2_model_a.yml
+   # python train.py --config_file configs/naic_round2_model_a.yml
+   # python train.py --config_file configs/naic_round2_model_a_alpha.yml
    ```
 
 3. If  you want to use our UDA method for training. 
