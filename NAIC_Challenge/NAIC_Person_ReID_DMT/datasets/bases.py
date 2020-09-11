@@ -1,5 +1,5 @@
 from PIL import Image, ImageFile
-import torch
+
 from torch.utils.data import Dataset
 import os.path as osp
 
@@ -74,8 +74,6 @@ class ImageDataset(Dataset):
     def __getitem__(self, index):
         img_path, pid, camid = self.dataset[index]
         img = read_image(img_path)
-        # pid = torch.tensor(list(pid))
-        # pid = torch.tensor(pid)
 
         if self.transform is not None:
             img = self.transform(img)

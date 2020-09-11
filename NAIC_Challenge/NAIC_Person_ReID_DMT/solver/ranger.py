@@ -122,13 +122,9 @@ class Ranger(Optimizer):
                 beta1, beta2 = group['betas']
 
                 #compute variance mov avg
-                # exp_avg_sq.mul_(beta2).addcmul_(1 - beta2, grad, grad)
-                exp_avg_sq.mul_(beta2)
-                exp_avg_sq = torch.addcmul(exp_avg_sq, grad, grad, value=1 - beta2)
+                exp_avg_sq.mul_(beta2).addcmul_(1 - beta2, grad, grad)
                 #compute mean moving avg
-                # exp_avg.mul_(beta1).add_(1 - beta1, grad)
-                exp_avg.mul_(beta1)
-                exp_avg = torch.add(exp_avg, grad, alpha=1 - beta1)
+                exp_avg.mul_(beta1).add_(1 - beta1, grad)
 
                 state['step'] += 1
 

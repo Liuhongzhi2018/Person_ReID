@@ -10,10 +10,9 @@ from .sampler import RandomIdentitySampler
 
 __factory = {
     'veri': VeRi,
-    'naic': NAIC
+    'naic' :NAIC
 
 }
-
 
 def train_collate_fn(batch):
     """
@@ -22,7 +21,6 @@ def train_collate_fn(batch):
     imgs, pids, _, _ = zip(*batch)
     pids = torch.tensor(pids, dtype=torch.int64)
     return torch.stack(imgs, dim=0), pids
-
 
 def val_collate_fn(batch):
     imgs, pids, camids, img_paths = zip(*batch)

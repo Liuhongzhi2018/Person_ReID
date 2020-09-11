@@ -28,21 +28,19 @@ class NAIC(BaseImageDataset):
 
     def _process_dir(self, data_dir, relabel=True):
         # filename = osp.join(data_dir, 'train_list.txt')
-        # filename = osp.join(data_dir, 'new_label.txt')
-        # filename = osp.join(data_dir, 'train_label.txt')
-        filename = osp.join('/home/lijiaqi/LiuHongzhi/GitHub/Person_ReID/NAIC_Challenge/data', 'label.txt')
+        filename = osp.join('/home/lijiaqi/LiuHongzhi/GitHub/NAIC_Challenge/data', 'label.txt')
         dataset = []
         camid = 1
-        count_image=defaultdict(list)
+        count_image = defaultdict(list)
         with open(filename, 'r') as file_to_read:
             while True:
                 lines = file_to_read.readline()
                 if not lines:
                     break
                 # img_name,img_label = [i for i in lines.split()]
-                img_name,img_label = [i for i in lines.split(':')]
-                if img_name == 'train/105180993.png' or img_name=='train/829283568.png' or img_name=='train/943445997.png': # remove samples with wrong label
-                    continue
+                # if img_name == 'train/105180993.png' or img_name=='train/829283568.png' or img_name=='train/943445997.png': # remove samples with wrong label
+                #     continue
+                img_name, img_label = [i for i in lines.split(':')]
                 count_image[img_label].append(img_name)
         val_imgs = {}
         pid_container = set()
@@ -61,27 +59,12 @@ class NAIC(BaseImageDataset):
         return dataset
 
     def _process_dir_test(self, data_dir, query=True):
-        rlabel = open("/home/lijiaqi/LiuHongzhi/ReID/train/label.txt", "r")
-        rlabel_dict = {}
-        for line in rlabel.readlines():
-            img_name, img_label = [i for i in line.split(':')]
-            rlabel_dict[img_name] = img_label
-        rlabel.close()
-        # print("rlabel_dict: ", len(rlabel_dict), "query: ", query)
-
         if query:
             subfix = 'query_a'
         else:
             subfix = 'gallery_a'
 
         datatype = ['green', 'normal']
-        if query:
-            camid = 1
-        else:
-            camid = 2
-        count_image = defaultdict(list)
-        # print("rlabel_dict: ", len(rlabel_dict), "subfix: ", subfix)
-
         for index, type in enumerate(datatype):
             filename = osp.join(data_dir, '{}_{}.txt'.format(subfix, type))
             dataset = []
@@ -91,45 +74,9 @@ class NAIC(BaseImageDataset):
                     if not lines:
                         break
                     for i in lines.split():
-                        # print("subfix: ", subfix, "i: ", i)
                         img_name = i
-                        img_label = rlabel_dict[img_name]
-                        # print("img_name: ", img_name, "img_label: ", img_label)
-                    count_image[img_label].append(img_name)
-            val_imgs = {}
-            pid_container = set()
-            for pid, img_name in count_image.items():
-                val_imgs[pid] = count_image[pid]
-                pid_container.add(pid)
-            pid2label = {pid: label for label, pid in enumerate(pid_container)}
-            for pid, img_name in val_imgs.items():
-                pid = pid2label[pid]
-                # print("\n pid: ", pid)
-                for img in img_name:
-                    dataset.append((osp.join(self.dataset_dir_test, subfix, img), pid, camid))
+
+                    dataset.append((osp.join(self.dataset_dir_test, subfix, img_name), 1, 1))
             if index == 0:
                 dataset_green = dataset
         return dataset_green, dataset
-
-    # def _process_dir_test(self, data_dir, query=True):
-    #     if query:
-    #         subfix = 'query_a'
-    #     else:
-    #         subfix = 'gallery_a'
-
-    #     datatype = ['green', 'normal']
-    #     for index, type in enumerate(datatype):
-    #         filename = osp.join(data_dir, '{}_{}.txt'.format(subfix, type))
-    #         dataset = []
-    #         with open(filename, 'r') as file_to_read:
-    #             while True:
-    #                 lines = file_to_read.readline()
-    #                 if not lines:
-    #                     break
-    #                 for i in lines.split():
-    #                     img_name = i
-
-    #                 dataset.append((osp.join(self.dataset_dir_test, subfix, img_name), 1, 1))
-    #         if index == 0:
-    #             dataset_green = dataset
-    #     return dataset_green, dataset

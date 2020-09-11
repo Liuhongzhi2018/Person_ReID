@@ -73,27 +73,16 @@ if __name__ == '__main__':
                                   cfg.SOLVER.WARMUP_FACTOR,
                                   cfg.SOLVER.WARMUP_EPOCHS, cfg.SOLVER.WARMUP_METHOD)
 
-    do_train(cfg,
-             model,
-             center_criterion,
-             train_loader,
-             val_loader_normal,
-             optimizer,
-             optimizer_center,
-             scheduler,             # modify for using self trained model
-             loss_func,
-             num_query_normal
-    )
 
-    # do_train(
-    #     cfg,
-    #     model,
-    #     center_criterion,
-    #     train_loader,
-    #     val_loader_green,
-    #     optimizer,
-    #     optimizer_center,
-    #     scheduler,  # modify for using self trained model
-    #     loss_func,
-    #     num_query_green
-    # )
+    do_train(
+        cfg,
+        model,
+        center_criterion,
+        train_loader,
+        val_loader_green,
+        optimizer,
+        optimizer_center,
+        scheduler,  # modify for using self trained model
+        loss_func,
+        num_query_green
+    )

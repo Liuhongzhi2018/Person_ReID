@@ -80,7 +80,10 @@ The code is modified from [reid strong baseline](https://github.com/michuanhaoha
    python train.py --config_file [CHOOSE WHICH config TO RUN]
    # E.g
    # python train.py --config_file configs/naic_round2_model_a.yml
-   # python train.py --config_file configs/naic_round2_model_a_alpha.yml
+
+   # python divided_dataset.py --data_dir_query ../data/test/query_a --data_dir_gallery ../data/test/gallery_a --save_dir ../data/test/
+
+
    ```
 
 3. If  you want to use our UDA method for training. 
