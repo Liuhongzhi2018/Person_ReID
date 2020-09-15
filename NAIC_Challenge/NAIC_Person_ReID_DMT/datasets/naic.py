@@ -7,7 +7,8 @@ class NAIC(BaseImageDataset):
     def __init__(self, root='../data', verbose = True):
         super(NAIC, self).__init__()
         self.dataset_dir = root
-        self.dataset_dir_train = osp.join(self.dataset_dir, 'train')
+        # self.dataset_dir_train = osp.join(self.dataset_dir, 'train')
+        self.dataset_dir_train = osp.join(self.dataset_dir, 'train1920')
         self.dataset_dir_test = osp.join(self.dataset_dir, 'test')
 
         train = self._process_dir(self.dataset_dir_train, relabel=True)
@@ -25,13 +26,14 @@ class NAIC(BaseImageDataset):
 
         self.num_train_pids, self.num_train_imgs, self.num_train_cams = self.get_imagedata_info(self.train)
 
-
     def _process_dir(self, data_dir, relabel=True):
         # filename = osp.join(data_dir, 'train_list.txt')
-        filename = osp.join('/home/lijiaqi/LiuHongzhi/GitHub/NAIC_Challenge/data', 'label.txt')
+        # filename = osp.join('/home/lijiaqi/LiuHongzhi/GitHub/NAIC_Challenge/data', 'label.txt')
+        filename = osp.join('/home/hardisk/ReID_models/Datasets/REID19_20', 'label.txt')
         dataset = []
         camid = 1
         count_image = defaultdict(list)
+        countall = []
         with open(filename, 'r') as file_to_read:
             while True:
                 lines = file_to_read.readline()
@@ -42,6 +44,7 @@ class NAIC(BaseImageDataset):
                 #     continue
                 img_name, img_label = [i for i in lines.split(':')]
                 count_image[img_label].append(img_name)
+                countall.append(img_name)
         val_imgs = {}
         pid_container = set()
         for pid, img_name in count_image.items():
@@ -55,6 +58,7 @@ class NAIC(BaseImageDataset):
             pid = pid2label[pid]
             for img in img_name:
                 dataset.append((osp.join(data_dir, img), pid, camid))
+        print('*'*6, "len countall", len(countall))
 
         return dataset
 

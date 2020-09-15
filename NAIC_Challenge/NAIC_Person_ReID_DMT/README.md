@@ -82,7 +82,7 @@ The code is modified from [reid strong baseline](https://github.com/michuanhaoha
    # python train.py --config_file configs/naic_round2_model_a.yml
 
    # python divided_dataset.py --data_dir_query ../data/test/query_a --data_dir_gallery ../data/test/gallery_a --save_dir ../data/test/
-
+   # python train.py --config_file configs/naic_round2_model_a_alpha.yml
 
    ```
 
@@ -99,7 +99,8 @@ The code is modified from [reid strong baseline](https://github.com/michuanhaoha
    ```bash
    python test.py --config_file [CHOOSE WHICH CONFIG TO TEST]
    # E.g
-   #python test.py --config_file configs/naic_round2_model_a.yml
+   # python test.py --config_file configs/naic_round2_model_a.yml
+   # python test.py --config_file configs/naic_round2_model_a_beta.yml
    ```
 
 ### Citation
