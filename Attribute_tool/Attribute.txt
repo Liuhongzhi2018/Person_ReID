@@ -1,0 +1,4 @@
+D:/PAR2/images/1.jpg hat:2 clo:2 
+D:/PAR/PAR2/images/1.jpg hat:2 clo:2 
+D:/PAR/PAR2/images/1.jpg hat:2 clo:2 
+D:/PAR/PAR2/images/3.jpg hat:1 clo:2 
