@@ -8,7 +8,8 @@ from tkinter.filedialog import askopenfilename, askopenfile, asksaveasfile
 from PIL import Image, ImageTk
 
 index, image_num = 0, 0
-select_img, select_path = '', ''
+select_img, select_path, save_txt_path = '', '', ''
+imgs_dict = {}
 filenames = []
 imgin = ''
 
@@ -44,7 +45,7 @@ def choose_file(img=None, lots=False):
     imgin.place(x=cur_loc_x, y=cur_loc_y)
 
 
-def choose_pre_file():
+def choose_pre_file(self):
     global index
     global image_num
     global filenames
@@ -57,7 +58,7 @@ def choose_pre_file():
     choose_file(filenames[index], lots=True)
 
 
-def choose_next_file():
+def choose_next_file(self):
     global index
     global image_num
     global filenames
@@ -84,7 +85,7 @@ def choose_files():
     choose_file(filenames[0], lots=True)
 
 
-def save_file():
+def save_file(self):
     global save_txt_path
     global select_img
     # tk.messagebox.showinfo(title='提示', message='请确认属性正确！')
@@ -97,9 +98,9 @@ def save_file():
     fw = open(save_txt_path, 'a')
     res = ''
     for item in attribute_dict.items():
-        print(item)
+        # print(item)
         res += str(item[0]) + ':' + str(item[1]) + ' '
-    print("select_img: ", select_img)
+    # print("select_img: ", select_img)
     line = select_img + ' ' + res
     f.set(line)
     print(line, file=fw)
@@ -112,7 +113,7 @@ def clear_file(img=None, lots=False):
     imgin.destroy()
 
 
-def flash_attribute():
+def flash_attribute(self):
     res = ''
     for item in attribute_dict.items():
         print(item)
@@ -175,7 +176,7 @@ def open_file(img=None, lots=False):
     imgin.place(x=cur_loc_x, y=cur_loc_y)
 
 
-def savefile():
+def savefile(self):
     global save_txt_path
     filetypes = [
         ("All Files", '*'),
@@ -257,6 +258,11 @@ button6.place(x=600, y=580)
 
 button7 = tk.Button(window, text="保存  此图属性", command=save_file)
 button7.place(x=600, y=650)
+
+window.bind('a', choose_pre_file)
+window.bind('d', choose_next_file)
+window.bind('z', flash_attribute)
+window.bind('c', save_file)
 
 window.config(menu=menubar)
 window.mainloop()
