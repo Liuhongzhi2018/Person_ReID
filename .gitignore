@@ -131,7 +131,7 @@ dmypy.json
 
 
 # datasets
-*.png
+.png
 
 # checkpoint
 *.pth
