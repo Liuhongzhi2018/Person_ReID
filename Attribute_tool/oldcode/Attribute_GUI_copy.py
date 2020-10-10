@@ -8,10 +8,10 @@ from tkinter.filedialog import askopenfilename, askopenfile, asksaveasfile
 from PIL import Image, ImageTk
 
 index, image_num = 0, 0
-select_img, select_path, save_txt_path = '', '', ''
-imgs_dict = {}
+select_img, select_path = '', ''
 filenames = []
 imgin = ''
+save_txt_path = ''
 
 
 def choose_file(img=None, lots=False):
@@ -38,7 +38,6 @@ def choose_file(img=None, lots=False):
     imgin.configure(image=render)
     imgin.image = render
 
-    # place location
     std_x, std_y = 25, 25
     cw, ch = load.size[0], load.size[1]
     cur_loc_x, cur_loc_y = std_x + 256 - cw // 2, std_y + 256 - ch // 2
@@ -64,7 +63,6 @@ def choose_next_file():
     global filenames
     global select_img
     global imgin
-    # os.remove(select_img)
     window.update_idletasks()
     index += 1
     if index == image_num:
@@ -78,6 +76,7 @@ def choose_files():
     global filenames
     global select_path
     select_path = filedialog.askdirectory(title='选择图片路径')
+
     filenames = os.listdir(select_path)
     image_num = len(filenames)
     if not image_num:
@@ -88,7 +87,6 @@ def choose_files():
 def save_file():
     global save_txt_path
     global select_img
-    # tk.messagebox.showinfo(title='提示', message='请确认属性正确！')
     retval = tk.messagebox.askokcancel(title='提示', message='请确认  属性选择  正确！')
     if save_txt_path == '':
         tk.messagebox.showwarning(title='注意', message='当前未选择保存路径，已默认保存在当前路径')
@@ -98,9 +96,9 @@ def save_file():
     fw = open(save_txt_path, 'a')
     res = ''
     for item in attribute_dict.items():
-        # print(item)
+        print(item)
         res += str(item[0]) + ':' + str(item[1]) + ' '
-    # print("select_img: ", select_img)
+    print("select_img: ", select_img)
     line = select_img + ' ' + res
     f.set(line)
     print(line, file=fw)
@@ -186,65 +184,6 @@ def savefile():
     save_txt_path = tk.filedialog.asksaveasfilename(defaultextension='.txt', filetypes=filetypes)
 
 
-def choose_pre_file_self(self):
-    global index
-    global image_num
-    global filenames
-    global select_img
-    global imgin
-    index -= 1
-    if index == -image_num:
-        index = 0
-    imgin.destroy()
-    choose_file(filenames[index], lots=True)
-
-
-def choose_next_file_self(self):
-    global index
-    global image_num
-    global filenames
-    global select_img
-    global imgin
-    # os.remove(select_img)
-    window.update_idletasks()
-    index += 1
-    if index == image_num:
-        index = 0
-    imgin.destroy()
-    choose_file(filenames[index], lots=True)
-
-
-def flash_attribute_self(self):
-    res = ''
-    for item in attribute_dict.items():
-        print(item)
-        res += str(item[0]) + ':' + str(item[1]) + ' '
-    f.set(res)
-
-
-def save_file_self(self):
-    global save_txt_path
-    global select_img
-    # tk.messagebox.showinfo(title='提示', message='请确认属性正确！')
-    retval = tk.messagebox.askokcancel(title='提示', message='请确认  属性选择  正确！')
-    if save_txt_path == '':
-        tk.messagebox.showwarning(title='注意', message='当前未选择保存路径，已默认保存在当前路径')
-        save_txt_path = './attribute.txt'
-    if not retval:
-        return
-    fw = open(save_txt_path, 'a')
-    res = ''
-    for item in attribute_dict.items():
-        # print(item)
-        res += str(item[0]) + ':' + str(item[1]) + ' '
-    # print("select_img: ", select_img)
-    line = select_img + ' ' + res
-    f.set(line)
-    print(line, file=fw)
-    fw.close()
-    tk.messagebox.showinfo(title='提示', message='已保存属性')
-
-
 def Editor():
     tk.messagebox.showinfo("版权声明", "欢迎使用属性标注工具！\n作者： 刘鸿智")
 
@@ -252,6 +191,7 @@ def Editor():
 window = tk.Tk()
 window.title("属性标注工具 Attribute Label Tool")
 window.geometry('800x800')
+window.iconphoto(False, tk.PhotoImage(file='icon.png'))
 
 menubar = tk.Menu(window)
 filemenu = tk.Menu(menubar, tearoff=0)
@@ -264,10 +204,12 @@ filemenu.add_command(label='退出 Quit', accelerator='Alt+F4',
                      command=window.destroy, underline=0)
 menubar.add_cascade(label='文件 File', underline=0, menu=filemenu)
 
+
 helpmenu = tk.Menu(menubar, tearoff=0)
 helpmenu.add_command(label='关于此工具 About', underline=0,
                      command=Editor)
 menubar.add_cascade(label='帮助 Help', menu=helpmenu)
+
 
 a_label = ttk.Label(window, text="Attribute List", font=('Times New Roman', 12))
 a_label.place(x=610, y=25)
@@ -286,6 +228,7 @@ button3.place(x=200, y=600)
 
 button5 = tk.Button(window, text="下一张", command=choose_next_file)
 button5.place(x=300, y=600)
+
 
 e = tk.StringVar()
 e_entry = tk.Entry(window, width=30, textvariable=e)
@@ -311,17 +254,11 @@ vyi = tk.IntVar()
 yi1 = tk.Radiobutton(group2, text="有", variable=vyi, value=1, command=yiCall).grid(column=0, row=0, sticky=tk.W)
 yi2 = tk.Radiobutton(group2, text="没有", variable=vyi, value=2, command=yiCall).grid(column=1, row=0, sticky=tk.W)
 
-
 button6 = tk.Button(window, text="刷新  已选属性", command=flash_attribute)
 button6.place(x=600, y=580)
 
 button7 = tk.Button(window, text="保存  此图属性", command=save_file)
 button7.place(x=600, y=650)
-
-window.bind('a', choose_pre_file_self)
-window.bind('d', choose_next_file_self)
-window.bind('z', flash_attribute_self)
-window.bind('c', save_file_self)
 
 window.config(menu=menubar)
 window.mainloop()
