@@ -19,8 +19,11 @@ pyinstaller -F Attribute_GUI.py -w
 
 ## Hotkey for Attribute tool
 a - choose pre image
+
 d - choose next image 
+
 z - flash attribute
+
 c - save file
 
 ## Demo
